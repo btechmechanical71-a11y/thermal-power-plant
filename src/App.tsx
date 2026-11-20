@@ -10,6 +10,7 @@ import { ComponentInspector } from './components/ComponentInspector';
 import { ComponentDirectoryModal } from './components/ComponentDirectoryModal';
 import { SchematicsOverlay } from './components/SchematicsOverlay';
 import { GuidedTour } from './components/GuidedTour';
+import { ComponentExtractionStudio } from './components/ComponentExtractionStudio';
 import { FlowCircuit } from './types/plant';
 import { PLANT_COMPONENTS } from './data/plantComponents';
 import { calculatePlantThermodynamics } from './data/thermodynamics';
@@ -40,6 +41,7 @@ export default function App() {
   const [isDirectoryOpen, setIsDirectoryOpen] = useState<boolean>(false);
   const [isSchematicsOpen, setIsSchematicsOpen] = useState<boolean>(false);
   const [isTourOpen, setIsTourOpen] = useState<boolean>(false);
+  const [isExtractionOpen, setIsExtractionOpen] = useState<boolean>(false);
 
   const [sceneManager, setSceneManager] = useState<PlantSceneManager | null>(null);
 
@@ -147,7 +149,16 @@ export default function App() {
           </button>
 
           <button
-            onClick={() => setIsSchematicsOpen(true)}
+            onClick={() => setIsExtractionOpen(true)}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-cyan-950/70 hover:bg-cyan-900 text-cyan-200 rounded-lg text-xs font-semibold transition border border-cyan-700/70"
+            title="Export all 50 individual 3D components"
+          >
+            <Layers className="w-3.5 h-3.5" />
+            <span className="hidden md:inline">Export 3D Parts</span>
+          </button>
+
+          <button
+            onClick={() => setIsSchematicsOpen(true)
             className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-medium transition border border-slate-700"
             title="Process Schematics"
           >
@@ -218,6 +229,8 @@ export default function App() {
           handleSelectComponent(id);
         }}
       />
+
+      <ComponentExtractionStudio isOpen={isExtractionOpen} onClose={() => setIsExtractionOpen(false)} />
 
       {/* B.Tech Presentation Guided Tour */}
       <GuidedTour
