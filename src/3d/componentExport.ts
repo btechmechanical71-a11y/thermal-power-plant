@@ -37,6 +37,12 @@ function createCenteredClone(id: number) {
 
   source.updateWorldMatrix(true, true);
   const clone = source.clone(true);
+  // Clear the cloned root's local transform before baking the source world matrix;
+  // otherwise its original local position/rotation/scale would be applied twice.
+  clone.position.set(0, 0, 0);
+  clone.quaternion.identity();
+  clone.scale.set(1, 1, 1);
+  clone.updateMatrix();
   clone.applyMatrix4(source.matrixWorld);
   clone.updateMatrixWorld(true);
 
